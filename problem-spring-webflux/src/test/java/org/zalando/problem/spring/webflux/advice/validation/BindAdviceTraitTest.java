@@ -1,5 +1,6 @@
 package org.zalando.problem.spring.webflux.advice.validation;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.zalando.problem.Status;
@@ -12,7 +13,14 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 
+import java.util.Locale;
+
 final class BindAdviceTraitTest implements AdviceTraitTesting {
+
+    @BeforeEach
+    void setUp() {
+        Locale.setDefault(Locale.ENGLISH);
+    }
 
     @Test
     void invalidRequestQueryParams() {

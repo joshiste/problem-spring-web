@@ -1,6 +1,7 @@
 package org.zalando.problem.spring.web.advice.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 import org.zalando.problem.ProblemModule;
 import org.zalando.problem.spring.common.MediaTypes;
 import org.zalando.problem.spring.web.advice.ProblemHandling;
 
 import java.util.List;
+import java.util.Locale;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
@@ -45,12 +49,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 final class SecurityAdviceTraitTest {
 
+    @BeforeEach
+    void setUp() {
+        Locale.setDefault(Locale.ENGLISH);
+    }
+
     @Configuration
     @EnableWebMvc
     @EnableWebSecurity
     @Import({MvcConfiguration.class, SecurityConfiguration.class})
     public static class TestConfiguration extends WebMvcConfigurationSupport {
-
         @Bean
         public MockMvc mvc(final WebApplicationContext context) {
             return MockMvcBuilders
